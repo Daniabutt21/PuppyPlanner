@@ -31,7 +31,13 @@ app.include_router(reminders.router)
 # Static Files
 # --------------------------------------------------------------------------------
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Only mount static files if not running on Vercel
+import os
+if not os.environ.get('VERCEL'):
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+else:
+    # For Vercel, we'll handle static files through the API
+    pass
 
 
 # --------------------------------------------------------------------------------
